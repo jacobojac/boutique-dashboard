@@ -1,0 +1,274 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../src/lib/generated/prisma"
+  binaryTargets = ["native", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime
+  updatedAt     DateTime
+  sessions      Session[]
+  accounts      Account[]
+
+  members     Member[]
+  invitations Invitation[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  activeOrganizationId String?
+
+  @@unique([token])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime
+  updatedAt             DateTime
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime?
+  updatedAt  DateTime?
+
+  @@map("verification")
+}
+
+model Organization {
+  id          String       @id
+  name        String
+  slug        String?
+  logo        String?
+  createdAt   DateTime
+  metadata    String?
+  members     Member[]
+  invitations Invitation[]
+
+  @@unique([slug])
+  @@map("organization")
+}
+
+model Member {
+  id             String       @id
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role           String
+  createdAt      DateTime
+
+  @@map("member")
+}
+
+model Invitation {
+  id             String       @id
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  email          String
+  role           String?
+  status         String
+  expiresAt      DateTime
+  inviterId      String
+  user           User         @relation(fields: [inviterId], references: [id], onDelete: Cascade)
+
+  @@map("invitation")
+}
+
+model Collection {
+  id          String              @id @default(cuid())
+  nom         String
+  description String?
+  slug        String              @unique
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  products    ProductCollection[]
+
+  @@map("collection")
+}
+
+model Product {
+  id          String              @id @default(cuid())
+  nom         String
+  slug        String
+  description String?             @db.Text
+  prix        Float
+  prixReduit  Float?
+  images      String[]
+  quantity    Float?
+  actif       Boolean             @default(true)
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  collections ProductCollection[]
+  variants    ProductVariant[]
+
+  @@map("product")
+}
+
+model ProductVariant {
+  id         String   @id @default(cuid())
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  taille     String?
+  couleur    String?
+  couleurHex String?
+  prix       Float?
+  quantity   Int      @default(0)
+  sku        String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([productId, taille, couleur])
+  @@map("product_variant")
+}
+
+model ProductCollection {
+  id           String     @id @default(cuid())
+  productId    String
+  collectionId String
+  product      Product    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  collection   Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, collectionId])
+  @@map("product_collection")
+}
+
+model Order {
+  id                 String      @id @default(cuid())
+  orderNumber        String      @unique
+  customerName       String?
+  customerEmail      String?
+  customerPhone      String?
+  customerStreet     String?
+  customerPostalCode String?
+  customerCity       String?
+  customerCountry    String?
+  status             OrderStatus @default(PENDING)
+  subtotalAmount     Float       @default(0) // Montant avant réduction
+  discountType       String? // "percentage" ou "amount"
+  discountValue      Float? // Valeur de la réduction
+  discountId         String? // Référence au discount appliqué (optionnel)
+  discount           Discount?   @relation(fields: [discountId], references: [id])
+  discountAmount     Float? // Montant de la réduction calculée
+  totalAmount        Float // Montant final après réduction
+  notes              String?
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+  items              OrderItem[]
+
+  @@map("order")
+}
+
+model Discount {
+  id          String       @id @default(cuid())
+  code        String       @unique
+  description String?
+  type        DiscountType // "percentage" ou "amount"
+  value       Float // Pourcentage (0-100) ou montant fixe
+  minAmount   Float? // Montant minimum de commande
+  maxUses     Int? // Nombre maximum d'utilisations
+  usedCount   Int          @default(0)
+  isActive    Boolean      @default(true)
+  startsAt    DateTime? // Date de début
+  expiresAt   DateTime? // Date d'expiration
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  orders      Order[] // Commandes qui utilisent ce discount
+
+  @@map("discount")
+}
+
+enum DiscountType {
+  PERCENTAGE // Pourcentage
+  AMOUNT // Montant fixe
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  variantId String?
+  nom       String
+  prix      Float
+  quantite  Int
+  taille    String?
+  couleur   String?
+  image     String?
+  createdAt DateTime @default(now())
+
+  @@map("order_item")
+}
+
+enum OrderStatus {
+  PENDING // En attente
+  CONFIRMED // Confirmée
+  PROCESSING // En cours de préparation
+  SHIPPED // Expédiée
+  DELIVERED // Livrée
+  CANCELLED // Annulée
+}
+
+model SiteConfig {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String   @db.Text
+  type        String // 'text', 'image', 'json', 'number', 'boolean'
+  section     String // 'homepage', 'header', 'footer', etc.
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Configuration par défaut pour la section Hero:
+  // homepage_hero_image - Image principale de la page d'accueil
+  // homepage_hero_title - Titre principal de la page d'accueil  
+  // homepage_hero_subtitle - Sous-titre de la page d'accueil
+  // homepage_hero_button_text - Texte du bouton
+
+  @@map("site_config")
+}
