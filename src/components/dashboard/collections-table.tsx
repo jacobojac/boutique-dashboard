@@ -153,7 +153,7 @@ export function CollectionsTable({ data }: CollectionsTableProps) {
   const [isDeleting, setIsDeleting] = React.useState(false);
 
   const handleEdit = (collection: Collection) => {
-    router.push(`/dashboard/collections/${collection.id}`);
+    router.push(`/collections/${collection.id}`);
   };
 
   const handleDelete = (collection: Collection) => {
@@ -166,14 +166,12 @@ export function CollectionsTable({ data }: CollectionsTableProps) {
 
     setIsDeleting(true);
     try {
-
       const response = await fetch(
         `/api/collections/modifier/${collectionToDelete.id}`,
         {
           method: "DELETE",
         }
       );
-
 
       // Récupérer le texte brut de la réponse d'abord
       const responseText = await response.text();

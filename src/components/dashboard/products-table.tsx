@@ -139,7 +139,7 @@ export function ProductsTable({ data }: ProductsTableProps) {
   const handleSlug = React.useCallback(
     (myProduct: TypeProduct) => {
       setProduct(myProduct);
-      router.push(`/dashboard/produits/${myProduct.id}`);
+      router.push(`/produits/${myProduct.id}`);
     },
     [setProduct, router]
   );
@@ -558,12 +558,18 @@ export function ProductsTable({ data }: ProductsTableProps) {
                         <Switch
                           checked={product.actif}
                           disabled
-                          className={`scale-75 ${product.actif ? 'data-[state=checked]:bg-green-500' : ''}`}
+                          className={`scale-75 ${
+                            product.actif
+                              ? "data-[state=checked]:bg-green-500"
+                              : ""
+                          }`}
                         />
-                        <span className={`text-sm font-medium ${
-                          product.actif ? 'text-green-600' : 'text-gray-500'
-                        }`}>
-                          {product.actif ? 'Actif' : 'Inactif'}
+                        <span
+                          className={`text-sm font-medium ${
+                            product.actif ? "text-green-600" : "text-gray-500"
+                          }`}
+                        >
+                          {product.actif ? "Actif" : "Inactif"}
                         </span>
                       </div>
                     </TableCell>
