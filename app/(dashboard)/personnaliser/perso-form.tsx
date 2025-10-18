@@ -224,14 +224,14 @@ export default function PersoForm() {
 
       heroForm.reset({
         homepage_hero_image:
-          configMap["homepage_hero_image"] || "/images/banniere.png",
+          configMap["homepage_hero_image"] ?? "/images/banniere.png",
         homepage_hero_title:
-          configMap["homepage_hero_title"] ||
+          configMap["homepage_hero_title"] ??
           "Ta personnalité mérite le meilleur style",
         homepage_hero_subtitle:
-          configMap["homepage_hero_subtitle"] || "Nouvelle Collection",
+          configMap["homepage_hero_subtitle"] ?? "Nouvelle Collection",
         homepage_hero_button_text:
-          configMap["homepage_hero_button_text"] || "Découvrir la collection",
+          configMap["homepage_hero_button_text"] ?? "Découvrir la collection",
       });
 
       categoriesForm.reset({
