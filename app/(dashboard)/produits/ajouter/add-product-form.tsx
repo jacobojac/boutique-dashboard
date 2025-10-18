@@ -283,13 +283,17 @@ export const AddProductForm = () => {
         // Reset complet du store
         resetAll();
 
-        router.push("/dashboard/produits");
+        router.push("/produits");
       } else {
         const errorData = await response.json().catch(() => ({
-          error: "Erreur lors de la création du produit"
+          error: "Erreur lors de la création du produit",
         }));
         console.error("Erreur lors de la création:", errorData);
-        alert(`Erreur lors de la création du produit: ${errorData.error || errorData.details || 'Erreur inconnue'}`);
+        alert(
+          `Erreur lors de la création du produit: ${
+            errorData.error || errorData.details || "Erreur inconnue"
+          }`
+        );
       }
     } catch (error) {
       console.error("Erreur:", error);

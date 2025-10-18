@@ -282,7 +282,7 @@ export const EditProductForm = ({ product }: { product: TypeProduct }) => {
         toast.success("Produit modifié avec succès", {
           position: "top-center",
         });
-        router.push("/dashboard/produits");
+        router.push("/produits");
       } else {
         const errorData = await response.json();
         console.error("API Error:", errorData);

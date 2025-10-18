@@ -13,8 +13,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import z from "zod";
 
 const collectionSchema = z.object({
@@ -55,12 +55,16 @@ export const AddCollectionForm = () => {
       if (response.ok) {
         const newCollection = await response.json();
         form.reset();
-        router.push("/dashboard/collections");
+        router.push("/collections");
       } else {
         const errorData = await response.json().catch(() => ({
-          error: "Erreur lors de la création"
+          error: "Erreur lors de la création",
         }));
-        console.error("Erreur lors de la création:", response.status, errorData);
+        console.error(
+          "Erreur lors de la création:",
+          response.status,
+          errorData
+        );
       }
     } catch (error) {
       console.error("General error:", error);

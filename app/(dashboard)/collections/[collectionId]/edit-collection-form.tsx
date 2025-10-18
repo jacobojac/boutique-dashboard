@@ -71,10 +71,10 @@ export const EditCollectionForm = ({
         toast.success("Collection modifiée avec succès", {
           position: "top-center",
         });
-        router.push("/dashboard/collections");
+        router.push("/collections");
       } else {
         const errorData = await response.json().catch(() => ({
-          message: "Erreur lors de la modification"
+          message: "Erreur lors de la modification",
         }));
         toast.error(errorData?.message || "Erreur lors de la modification");
       }
