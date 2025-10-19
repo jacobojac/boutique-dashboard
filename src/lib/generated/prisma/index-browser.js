@@ -246,6 +246,7 @@ exports.Prisma.OrderScalarFieldEnum = {
   customerPostalCode: 'customerPostalCode',
   customerCity: 'customerCity',
   customerCountry: 'customerCountry',
+  deliveryMethod: 'deliveryMethod',
   status: 'status',
   subtotalAmount: 'subtotalAmount',
   discountType: 'discountType',

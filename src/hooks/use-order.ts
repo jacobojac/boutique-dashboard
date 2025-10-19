@@ -10,6 +10,7 @@ interface CreateOrderData {
   customerPostalCode?: string;
   customerCity?: string;
   customerCountry?: string;
+  deliveryMethod?: string;
   totalAmount: number;
   notes?: string;
   items: Array<{
@@ -60,6 +61,7 @@ export const useOrder = () => {
       postalCode?: string;
       city?: string;
       country?: string;
+      deliveryMethod?: string;
     }
   ): Promise<OrderResponse | null> => {
     setIsLoading(true);
@@ -75,6 +77,7 @@ export const useOrder = () => {
         customerPostalCode: customerInfo?.postalCode,
         customerCity: customerInfo?.city,
         customerCountry: customerInfo?.country,
+        deliveryMethod: customerInfo?.deliveryMethod,
         totalAmount,
         items: cartItems.map((item) => ({
           productId: item.productId,
@@ -103,12 +106,15 @@ export const useOrder = () => {
           // Commande existe déjà, pas vraiment une erreur
           return data;
         }
-        throw new Error(data.error || "Erreur lors de la création de la commande");
+        throw new Error(
+          data.error || "Erreur lors de la création de la commande"
+        );
       }
 
       return data;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Erreur inconnue";
+      const errorMessage =
+        err instanceof Error ? err.message : "Erreur inconnue";
       setError(errorMessage);
       console.error("Erreur createOrder:", err);
       return null;
@@ -123,7 +129,7 @@ export const useOrder = () => {
 
     try {
       const response = await fetch(`/api/orders?orderNumber=${orderNumber}`);
-      
+
       if (!response.ok) {
         if (response.status === 404) {
           return null; // Commande non trouvée
@@ -134,7 +140,8 @@ export const useOrder = () => {
       const order = await response.json();
       return order;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Erreur inconnue";
+      const errorMessage =
+        err instanceof Error ? err.message : "Erreur inconnue";
       setError(errorMessage);
       console.error("Erreur getOrder:", err);
       return null;
@@ -166,7 +173,8 @@ export const useOrder = () => {
       const data = await response.json();
       return data.order;
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Erreur inconnue";
+      const errorMessage =
+        err instanceof Error ? err.message : "Erreur inconnue";
       setError(errorMessage);
       console.error("Erreur updateOrderStatus:", err);
       return null;

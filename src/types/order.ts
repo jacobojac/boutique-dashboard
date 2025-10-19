@@ -60,6 +60,7 @@ export interface Order {
   discount?: Discount | null;   // Relation vers le discount
   discountAmount?: number | null; // Montant de la réduction calculée
   totalAmount: number;         // Montant final après réduction
+  deliveryMethod?: string | null; // Méthode de livraison
   notes?: string | null;
   createdAt: Date;
   updatedAt: Date;
@@ -81,6 +82,7 @@ export interface CreateOrderData {
   discountId?: string;
   discountAmount?: number;
   totalAmount: number;
+  deliveryMethod?: string;
   notes?: string;
   items: CreateOrderItemData[];
 }
@@ -112,6 +114,7 @@ export interface UpdateOrderData {
   discountId?: string;
   discountAmount?: number;
   totalAmount?: number;
+  deliveryMethod?: string;
   notes?: string;
 }
 

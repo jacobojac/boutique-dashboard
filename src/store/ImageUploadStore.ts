@@ -11,6 +11,7 @@ interface ImageUploadState {
   uploadedUrls: string[];
   addPendingImage: (file: File, customId?: string) => void;
   removePendingImage: (id: string) => void;
+  reorderPendingImages: (fromIndex: number, toIndex: number) => void;
   addUploadedUrl: (url: string) => void;
   removeUploadedUrl: (url: string) => void;
   clearPendingImages: () => void;
@@ -37,7 +38,7 @@ export const useImageUploadStore = create<ImageUploadState>((set, get) => ({
   removePendingImage: (id: string) => {
     const { pendingImages } = get();
     const imageToRemove = pendingImages.find(img => img.id === id);
-    
+
     if (imageToRemove) {
       // Nettoyer l'URL de preview
       URL.revokeObjectURL(imageToRemove.preview);
@@ -46,6 +47,15 @@ export const useImageUploadStore = create<ImageUploadState>((set, get) => ({
     set((state) => ({
       pendingImages: state.pendingImages.filter(img => img.id !== id)
     }));
+  },
+
+  reorderPendingImages: (fromIndex: number, toIndex: number) => {
+    set((state) => {
+      const newImages = [...state.pendingImages];
+      const [movedImage] = newImages.splice(fromIndex, 1);
+      newImages.splice(toIndex, 0, movedImage);
+      return { pendingImages: newImages };
+    });
   },
 
   addUploadedUrl: (url: string) => {

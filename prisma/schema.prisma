@@ -188,6 +188,7 @@ model Order {
   customerPostalCode String?
   customerCity    String?
   customerCountry String?
+  deliveryMethod  String?     // "hand-delivery-aulnay", "hand-delivery-idf", "parcel-france"
   status          OrderStatus @default(PENDING)
   subtotalAmount  Float       @default(0) // Montant avant réduction
   discountType    String?     // "percentage" ou "amount"

@@ -14660,6 +14660,7 @@ export namespace Prisma {
     customerPostalCode: string | null
     customerCity: string | null
     customerCountry: string | null
+    deliveryMethod: string | null
     status: $Enums.OrderStatus | null
     subtotalAmount: number | null
     discountType: string | null
@@ -14682,6 +14683,7 @@ export namespace Prisma {
     customerPostalCode: string | null
     customerCity: string | null
     customerCountry: string | null
+    deliveryMethod: string | null
     status: $Enums.OrderStatus | null
     subtotalAmount: number | null
     discountType: string | null
@@ -14704,6 +14706,7 @@ export namespace Prisma {
     customerPostalCode: number
     customerCity: number
     customerCountry: number
+    deliveryMethod: number
     status: number
     subtotalAmount: number
     discountType: number
@@ -14742,6 +14745,7 @@ export namespace Prisma {
     customerPostalCode?: true
     customerCity?: true
     customerCountry?: true
+    deliveryMethod?: true
     status?: true
     subtotalAmount?: true
     discountType?: true
@@ -14764,6 +14768,7 @@ export namespace Prisma {
     customerPostalCode?: true
     customerCity?: true
     customerCountry?: true
+    deliveryMethod?: true
     status?: true
     subtotalAmount?: true
     discountType?: true
@@ -14786,6 +14791,7 @@ export namespace Prisma {
     customerPostalCode?: true
     customerCity?: true
     customerCountry?: true
+    deliveryMethod?: true
     status?: true
     subtotalAmount?: true
     discountType?: true
@@ -14895,6 +14901,7 @@ export namespace Prisma {
     customerPostalCode: string | null
     customerCity: string | null
     customerCountry: string | null
+    deliveryMethod: string | null
     status: $Enums.OrderStatus
     subtotalAmount: number
     discountType: string | null
@@ -14936,6 +14943,7 @@ export namespace Prisma {
     customerPostalCode?: boolean
     customerCity?: boolean
     customerCountry?: boolean
+    deliveryMethod?: boolean
     status?: boolean
     subtotalAmount?: boolean
     discountType?: boolean
@@ -14961,6 +14969,7 @@ export namespace Prisma {
     customerPostalCode?: boolean
     customerCity?: boolean
     customerCountry?: boolean
+    deliveryMethod?: boolean
     status?: boolean
     subtotalAmount?: boolean
     discountType?: boolean
@@ -14984,6 +14993,7 @@ export namespace Prisma {
     customerPostalCode?: boolean
     customerCity?: boolean
     customerCountry?: boolean
+    deliveryMethod?: boolean
     status?: boolean
     subtotalAmount?: boolean
     discountType?: boolean
@@ -15007,6 +15017,7 @@ export namespace Prisma {
     customerPostalCode?: boolean
     customerCity?: boolean
     customerCountry?: boolean
+    deliveryMethod?: boolean
     status?: boolean
     subtotalAmount?: boolean
     discountType?: boolean
@@ -15019,7 +15030,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderNumber" | "customerName" | "customerEmail" | "customerPhone" | "customerStreet" | "customerPostalCode" | "customerCity" | "customerCountry" | "status" | "subtotalAmount" | "discountType" | "discountValue" | "discountId" | "discountAmount" | "totalAmount" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
+  export type OrderOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "orderNumber" | "customerName" | "customerEmail" | "customerPhone" | "customerStreet" | "customerPostalCode" | "customerCity" | "customerCountry" | "deliveryMethod" | "status" | "subtotalAmount" | "discountType" | "discountValue" | "discountId" | "discountAmount" | "totalAmount" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["order"]>
   export type OrderInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     discount?: boolean | Order$discountArgs<ExtArgs>
     items?: boolean | Order$itemsArgs<ExtArgs>
@@ -15048,6 +15059,7 @@ export namespace Prisma {
       customerPostalCode: string | null
       customerCity: string | null
       customerCountry: string | null
+      deliveryMethod: string | null
       status: $Enums.OrderStatus
       subtotalAmount: number
       discountType: string | null
@@ -15492,6 +15504,7 @@ export namespace Prisma {
     readonly customerPostalCode: FieldRef<"Order", 'String'>
     readonly customerCity: FieldRef<"Order", 'String'>
     readonly customerCountry: FieldRef<"Order", 'String'>
+    readonly deliveryMethod: FieldRef<"Order", 'String'>
     readonly status: FieldRef<"Order", 'OrderStatus'>
     readonly subtotalAmount: FieldRef<"Order", 'Float'>
     readonly discountType: FieldRef<"Order", 'String'>
@@ -19560,6 +19573,7 @@ export namespace Prisma {
     customerPostalCode: 'customerPostalCode',
     customerCity: 'customerCity',
     customerCountry: 'customerCountry',
+    deliveryMethod: 'deliveryMethod',
     status: 'status',
     subtotalAmount: 'subtotalAmount',
     discountType: 'discountType',
@@ -20533,6 +20547,7 @@ export namespace Prisma {
     customerPostalCode?: StringNullableFilter<"Order"> | string | null
     customerCity?: StringNullableFilter<"Order"> | string | null
     customerCountry?: StringNullableFilter<"Order"> | string | null
+    deliveryMethod?: StringNullableFilter<"Order"> | string | null
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
     subtotalAmount?: FloatFilter<"Order"> | number
     discountType?: StringNullableFilter<"Order"> | string | null
@@ -20557,6 +20572,7 @@ export namespace Prisma {
     customerPostalCode?: SortOrderInput | SortOrder
     customerCity?: SortOrderInput | SortOrder
     customerCountry?: SortOrderInput | SortOrder
+    deliveryMethod?: SortOrderInput | SortOrder
     status?: SortOrder
     subtotalAmount?: SortOrder
     discountType?: SortOrderInput | SortOrder
@@ -20584,6 +20600,7 @@ export namespace Prisma {
     customerPostalCode?: StringNullableFilter<"Order"> | string | null
     customerCity?: StringNullableFilter<"Order"> | string | null
     customerCountry?: StringNullableFilter<"Order"> | string | null
+    deliveryMethod?: StringNullableFilter<"Order"> | string | null
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
     subtotalAmount?: FloatFilter<"Order"> | number
     discountType?: StringNullableFilter<"Order"> | string | null
@@ -20608,6 +20625,7 @@ export namespace Prisma {
     customerPostalCode?: SortOrderInput | SortOrder
     customerCity?: SortOrderInput | SortOrder
     customerCountry?: SortOrderInput | SortOrder
+    deliveryMethod?: SortOrderInput | SortOrder
     status?: SortOrder
     subtotalAmount?: SortOrder
     discountType?: SortOrderInput | SortOrder
@@ -20638,6 +20656,7 @@ export namespace Prisma {
     customerPostalCode?: StringNullableWithAggregatesFilter<"Order"> | string | null
     customerCity?: StringNullableWithAggregatesFilter<"Order"> | string | null
     customerCountry?: StringNullableWithAggregatesFilter<"Order"> | string | null
+    deliveryMethod?: StringNullableWithAggregatesFilter<"Order"> | string | null
     status?: EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
     subtotalAmount?: FloatWithAggregatesFilter<"Order"> | number
     discountType?: StringNullableWithAggregatesFilter<"Order"> | string | null
@@ -21750,6 +21769,7 @@ export namespace Prisma {
     customerPostalCode?: string | null
     customerCity?: string | null
     customerCountry?: string | null
+    deliveryMethod?: string | null
     status?: $Enums.OrderStatus
     subtotalAmount?: number
     discountType?: string | null
@@ -21773,6 +21793,7 @@ export namespace Prisma {
     customerPostalCode?: string | null
     customerCity?: string | null
     customerCountry?: string | null
+    deliveryMethod?: string | null
     status?: $Enums.OrderStatus
     subtotalAmount?: number
     discountType?: string | null
@@ -21796,6 +21817,7 @@ export namespace Prisma {
     customerPostalCode?: NullableStringFieldUpdateOperationsInput | string | null
     customerCity?: NullableStringFieldUpdateOperationsInput | string | null
     customerCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     subtotalAmount?: FloatFieldUpdateOperationsInput | number
     discountType?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21819,6 +21841,7 @@ export namespace Prisma {
     customerPostalCode?: NullableStringFieldUpdateOperationsInput | string | null
     customerCity?: NullableStringFieldUpdateOperationsInput | string | null
     customerCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     subtotalAmount?: FloatFieldUpdateOperationsInput | number
     discountType?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21842,6 +21865,7 @@ export namespace Prisma {
     customerPostalCode?: string | null
     customerCity?: string | null
     customerCountry?: string | null
+    deliveryMethod?: string | null
     status?: $Enums.OrderStatus
     subtotalAmount?: number
     discountType?: string | null
@@ -21864,6 +21888,7 @@ export namespace Prisma {
     customerPostalCode?: NullableStringFieldUpdateOperationsInput | string | null
     customerCity?: NullableStringFieldUpdateOperationsInput | string | null
     customerCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     subtotalAmount?: FloatFieldUpdateOperationsInput | number
     discountType?: NullableStringFieldUpdateOperationsInput | string | null
@@ -21885,6 +21910,7 @@ export namespace Prisma {
     customerPostalCode?: NullableStringFieldUpdateOperationsInput | string | null
     customerCity?: NullableStringFieldUpdateOperationsInput | string | null
     customerCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     subtotalAmount?: FloatFieldUpdateOperationsInput | number
     discountType?: NullableStringFieldUpdateOperationsInput | string | null
@@ -22901,6 +22927,7 @@ export namespace Prisma {
     customerPostalCode?: SortOrder
     customerCity?: SortOrder
     customerCountry?: SortOrder
+    deliveryMethod?: SortOrder
     status?: SortOrder
     subtotalAmount?: SortOrder
     discountType?: SortOrder
@@ -22930,6 +22957,7 @@ export namespace Prisma {
     customerPostalCode?: SortOrder
     customerCity?: SortOrder
     customerCountry?: SortOrder
+    deliveryMethod?: SortOrder
     status?: SortOrder
     subtotalAmount?: SortOrder
     discountType?: SortOrder
@@ -22952,6 +22980,7 @@ export namespace Prisma {
     customerPostalCode?: SortOrder
     customerCity?: SortOrder
     customerCountry?: SortOrder
+    deliveryMethod?: SortOrder
     status?: SortOrder
     subtotalAmount?: SortOrder
     discountType?: SortOrder
@@ -25365,6 +25394,7 @@ export namespace Prisma {
     customerPostalCode?: string | null
     customerCity?: string | null
     customerCountry?: string | null
+    deliveryMethod?: string | null
     status?: $Enums.OrderStatus
     subtotalAmount?: number
     discountType?: string | null
@@ -25387,6 +25417,7 @@ export namespace Prisma {
     customerPostalCode?: string | null
     customerCity?: string | null
     customerCountry?: string | null
+    deliveryMethod?: string | null
     status?: $Enums.OrderStatus
     subtotalAmount?: number
     discountType?: string | null
@@ -25438,6 +25469,7 @@ export namespace Prisma {
     customerPostalCode?: StringNullableFilter<"Order"> | string | null
     customerCity?: StringNullableFilter<"Order"> | string | null
     customerCountry?: StringNullableFilter<"Order"> | string | null
+    deliveryMethod?: StringNullableFilter<"Order"> | string | null
     status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
     subtotalAmount?: FloatFilter<"Order"> | number
     discountType?: StringNullableFilter<"Order"> | string | null
@@ -25460,6 +25492,7 @@ export namespace Prisma {
     customerPostalCode?: string | null
     customerCity?: string | null
     customerCountry?: string | null
+    deliveryMethod?: string | null
     status?: $Enums.OrderStatus
     subtotalAmount?: number
     discountType?: string | null
@@ -25482,6 +25515,7 @@ export namespace Prisma {
     customerPostalCode?: string | null
     customerCity?: string | null
     customerCountry?: string | null
+    deliveryMethod?: string | null
     status?: $Enums.OrderStatus
     subtotalAmount?: number
     discountType?: string | null
@@ -25520,6 +25554,7 @@ export namespace Prisma {
     customerPostalCode?: NullableStringFieldUpdateOperationsInput | string | null
     customerCity?: NullableStringFieldUpdateOperationsInput | string | null
     customerCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     subtotalAmount?: FloatFieldUpdateOperationsInput | number
     discountType?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25542,6 +25577,7 @@ export namespace Prisma {
     customerPostalCode?: NullableStringFieldUpdateOperationsInput | string | null
     customerCity?: NullableStringFieldUpdateOperationsInput | string | null
     customerCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     subtotalAmount?: FloatFieldUpdateOperationsInput | number
     discountType?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25936,6 +25972,7 @@ export namespace Prisma {
     customerPostalCode?: string | null
     customerCity?: string | null
     customerCountry?: string | null
+    deliveryMethod?: string | null
     status?: $Enums.OrderStatus
     subtotalAmount?: number
     discountType?: string | null
@@ -25957,6 +25994,7 @@ export namespace Prisma {
     customerPostalCode?: NullableStringFieldUpdateOperationsInput | string | null
     customerCity?: NullableStringFieldUpdateOperationsInput | string | null
     customerCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     subtotalAmount?: FloatFieldUpdateOperationsInput | number
     discountType?: NullableStringFieldUpdateOperationsInput | string | null
@@ -25979,6 +26017,7 @@ export namespace Prisma {
     customerPostalCode?: NullableStringFieldUpdateOperationsInput | string | null
     customerCity?: NullableStringFieldUpdateOperationsInput | string | null
     customerCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     subtotalAmount?: FloatFieldUpdateOperationsInput | number
     discountType?: NullableStringFieldUpdateOperationsInput | string | null
@@ -26001,6 +26040,7 @@ export namespace Prisma {
     customerPostalCode?: NullableStringFieldUpdateOperationsInput | string | null
     customerCity?: NullableStringFieldUpdateOperationsInput | string | null
     customerCountry?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryMethod?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     subtotalAmount?: FloatFieldUpdateOperationsInput | number
     discountType?: NullableStringFieldUpdateOperationsInput | string | null

@@ -45,7 +45,7 @@ export function OrdersTable({
   orders,
   onStatusUpdate,
   onOrderUpdate,
-  onOrderDeleted
+  onOrderDeleted,
 }: OrdersTableProps) {
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [isStatusDialogOpen, setIsStatusDialogOpen] = useState(false);
@@ -89,11 +89,14 @@ export function OrdersTable({
     setIsDeleteDialogOpen(true);
   }, []);
 
-  const handleOrderDeleted = useCallback((orderId: string) => {
-    if (onOrderDeleted) {
-      onOrderDeleted(orderId);
-    }
-  }, [onOrderDeleted]);
+  const handleOrderDeleted = useCallback(
+    (orderId: string) => {
+      if (onOrderDeleted) {
+        onOrderDeleted(orderId);
+      }
+    },
+    [onOrderDeleted]
+  );
 
   // Filtrage des données
   const filteredOrders = useMemo(() => {
@@ -190,10 +193,11 @@ export function OrdersTable({
           </div>
 
           <div className="flex items-center space-x-2">
-            <span className="text-sm font-medium hidden sm:block">
-              Statut:
-            </span>
-            <Select value={statusFilter} onValueChange={handleStatusFilterChange}>
+            <span className="text-sm font-medium hidden sm:block">Statut:</span>
+            <Select
+              value={statusFilter}
+              onValueChange={handleStatusFilterChange}
+            >
               <SelectTrigger className="w-full sm:w-[180px]">
                 <SelectValue placeholder="Tous les statuts" />
               </SelectTrigger>
@@ -228,6 +232,7 @@ export function OrdersTable({
               <TableHead className="font-semibold">Articles</TableHead>
               <TableHead className="font-semibold">Réduction</TableHead>
               <TableHead className="font-semibold">Montant total</TableHead>
+              <TableHead className="font-semibold">Mode de livraison</TableHead>
               <TableHead className="font-semibold">Date</TableHead>
               <TableHead className="font-semibold text-right">
                 Actions
@@ -237,7 +242,7 @@ export function OrdersTable({
           <TableBody>
             {paginatedOrders.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={8} className="text-center py-8">
+                <TableCell colSpan={9} className="text-center py-8">
                   <div className="flex flex-col items-center gap-2">
                     <IconPackage className="h-12 w-12 text-gray-400 dark:text-gray-500" />
                     <p className="text-gray-500 dark:text-gray-400">
@@ -319,6 +324,25 @@ export function OrdersTable({
                       <span className="font-medium">
                         {formatPrice(order.totalAmount)}
                       </span>
+                    </TableCell>
+                    <TableCell>
+                      {order.deliveryMethod ? (
+                        <span className="text-sm">
+                          {order.deliveryMethod === "hand-delivery-aulnay"
+                            ? "Livraison Aulnay"
+                            : order.deliveryMethod === "hand-delivery-idf"
+                            ? "Livraison IDF"
+                            : order.deliveryMethod === "parcel-france-relais"
+                            ? "Colis relais"
+                            : order.deliveryMethod === "parcel-france-home"
+                            ? "Colis domicile"
+                            : order.deliveryMethod}
+                        </span>
+                      ) : (
+                        <span className="text-sm text-gray-400 dark:text-gray-500">
+                          -
+                        </span>
+                      )}
                     </TableCell>
                     <TableCell>
                       <ClientDate

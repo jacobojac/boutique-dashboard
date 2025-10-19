@@ -22,7 +22,7 @@ export default function UploadImagesDeferred({
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
 
-  const { pendingImages, addPendingImage, removePendingImage } =
+  const { pendingImages, addPendingImage, removePendingImage, reorderPendingImages } =
     useImageUploadStore();
 
   // Utiliser les images du parent (value) comme base - ce sont les images persistantes
@@ -175,7 +175,7 @@ export default function UploadImagesDeferred({
           {totalImages}/{maxFiles} images sélectionnées
         </span>
         {value.length > 1 && (
-          <span className="text-blue-600 text-xs">
+          <span className="hidden md:inline text-blue-600 text-xs">
             Glissez-déposez pour réorganiser
           </span>
         )}
@@ -215,7 +215,7 @@ export default function UploadImagesDeferred({
                 />
 
                 {/* Overlay de contrôles */}
-                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <div className="absolute inset-0 bg-black/20 opacity-0 md:group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <div className="flex items-center gap-1">
                     {/* Bouton déplacer à gauche */}
                     {index > 0 && (
@@ -261,19 +261,52 @@ export default function UploadImagesDeferred({
                   type="button"
                   variant="destructive"
                   size="icon"
-                  className="absolute top-2 right-2 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                  className="absolute top-2 right-2 h-7 w-7 md:opacity-0 md:group-hover:opacity-100 transition-opacity z-10 shadow-lg"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleRemoveUploadedUrl(url);
                   }}
                 >
-                  <X className="h-3 w-3" />
+                  <X className="h-4 w-4" />
                 </Button>
+              </div>
 
-                {/* Numéro d'ordre */}
-                <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-                  {index + 1}
+              {/* Boutons de navigation */}
+              <div className="w-full flex items-center justify-center gap-2 mt-2">
+                <button
+                  type="button"
+                  disabled={index === 0 || value.length === 1}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    moveImageLeft(index);
+                  }}
+                  aria-label="Déplacer l'image vers la gauche"
+                  title="Déplacer vers la gauche"
+                  className="p-2 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-750 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                >
+                  <ArrowLeft className="h-4 w-4 text-gray-600 dark:text-gray-400" />
+                </button>
+                <div className="flex items-center gap-1.5 px-3 py-1.5">
+                  {index === 0 && value.length > 0 && (
+                    <div className="w-1.5 h-1.5 bg-blue-500 rounded-full" title="Image principale"></div>
+                  )}
+                  <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
+                    {index + 1}/{value.length}
+                  </span>
                 </div>
+                <button
+                  type="button"
+                  disabled={index === value.length - 1 || value.length === 1}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    moveImageRight(index);
+                  }}
+                  aria-label="Déplacer l'image vers la droite"
+                  title="Déplacer vers la droite"
+                  className="p-2 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-750 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                >
+                  <ArrowRight className="h-4 w-4 text-gray-600 dark:text-gray-400" />
+                </button>
               </div>
             </div>
           ))}
@@ -288,7 +321,7 @@ export default function UploadImagesDeferred({
                   fill
                   className="object-cover transition-transform group-hover:scale-105"
                 />
-                <div className="absolute top-0 left-0 w-full h-full bg-black/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute top-0 left-0 w-full h-full bg-black/10 flex items-center justify-center opacity-0 md:group-hover:opacity-100 transition-opacity">
                   <div className="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">
                     En attente
                   </div>
@@ -297,16 +330,52 @@ export default function UploadImagesDeferred({
                   type="button"
                   variant="destructive"
                   size="icon"
-                  className="absolute top-2 right-2 h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                  className="absolute top-2 right-2 h-7 w-7 md:opacity-0 md:group-hover:opacity-100 transition-opacity z-10 shadow-lg"
                   onClick={() => handleRemovePendingImage(pending.id)}
                 >
-                  <X className="h-3 w-3" />
+                  <X className="h-4 w-4" />
                 </Button>
 
-                {/* Numéro d'ordre pour les images en attente */}
-                <div className="absolute bottom-2 right-2 bg-yellow-600 text-white text-xs px-2 py-1 rounded">
-                  {value.length + pendingIndex + 1}
+                {/* Badge "En attente" visible sur mobile */}
+                <div className="absolute bottom-2 left-2 bg-yellow-500 text-white text-xs px-2 py-1 rounded font-medium">
+                  En attente
                 </div>
+              </div>
+
+              {/* Boutons de navigation pour images en attente */}
+              <div className="w-full flex items-center justify-center gap-2 mt-2">
+                <button
+                  type="button"
+                  disabled={pendingIndex === 0 || pendingImages.length === 1}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    reorderPendingImages(pendingIndex, pendingIndex - 1);
+                  }}
+                  aria-label="Déplacer l'image en attente vers la gauche"
+                  title="Déplacer vers la gauche"
+                  className="p-2 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-750 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                >
+                  <ArrowLeft className="h-4 w-4 text-gray-600 dark:text-gray-400" />
+                </button>
+                <div className="flex items-center gap-1.5 px-3 py-1.5">
+                  <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full" title="Image en attente"></div>
+                  <span className="text-xs font-medium text-gray-600 dark:text-gray-400">
+                    {value.length + pendingIndex + 1}/{totalImages}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  disabled={pendingIndex === pendingImages.length - 1 || pendingImages.length === 1}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    reorderPendingImages(pendingIndex, pendingIndex + 1);
+                  }}
+                  aria-label="Déplacer l'image en attente vers la droite"
+                  title="Déplacer vers la droite"
+                  className="p-2 rounded-md border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-750 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                >
+                  <ArrowRight className="h-4 w-4 text-gray-600 dark:text-gray-400" />
+                </button>
               </div>
             </div>
           ))}
@@ -341,7 +410,7 @@ export default function UploadImagesDeferred({
                 <li>
                   • La première image sera utilisée comme image principale
                 </li>
-                <li>• Glissez-déposez les images pour les réorganiser</li>
+                <li className="hidden md:block">• Glissez-déposez les images pour les réorganiser</li>
                 <li>• Utilisez les flèches ← → pour déplacer une image</li>
                 <li>• L&#39;ordre sera sauvegardé automatiquement</li>
               </ul>
