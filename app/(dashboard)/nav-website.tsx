@@ -20,7 +20,13 @@ export function NavWebSite({
     icon: Icon;
   }[];
 }) {
-  const { isMobile } = useSidebar();
+  const { isMobile, setOpenMobile } = useSidebar();
+
+  const handleClick = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
@@ -28,9 +34,9 @@ export function NavWebSite({
       <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton asChild>
-              <a href={item.url}>
-                <item.icon />
+            <SidebarMenuButton asChild className="md:h-9 h-12 md:text-sm text-base">
+              <a href={item.url} onClick={handleClick}>
+                <item.icon className="md:h-4 md:w-4 h-5 w-5" />
                 <span>{item.name}</span>
               </a>
             </SidebarMenuButton>

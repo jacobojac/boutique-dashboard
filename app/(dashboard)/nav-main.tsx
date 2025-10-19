@@ -8,6 +8,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 
@@ -20,6 +21,14 @@ export function NavMain({
     icon?: Icon;
   }[];
 }) {
+  const { isMobile, setOpenMobile } = useSidebar();
+
+  const handleClick = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
+
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
@@ -45,9 +54,9 @@ export function NavMain({
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title} className="text-md">
-              <SidebarMenuButton asChild tooltip={item.title}>
-                <Link href={item.url}>
-                  {item.icon && <item.icon />}
+              <SidebarMenuButton asChild tooltip={item.title} className="md:h-9 h-12 md:text-sm text-base">
+                <Link href={item.url} onClick={handleClick}>
+                  {item.icon && <item.icon className="md:h-4 md:w-4 h-5 w-5" />}
                   <span>{item.title}</span>
                 </Link>
               </SidebarMenuButton>
