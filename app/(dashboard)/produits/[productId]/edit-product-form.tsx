@@ -209,6 +209,7 @@ export const EditProductForm = ({ product }: { product: TypeProduct }) => {
             const currentVariants = form.getValues().variants || [];
             const newVariants = [...currentVariants];
             newVariants[currentVariantIndex].couleur = newColor.nom;
+            newVariants[currentVariantIndex].couleurHex = newColor.hex; // Ajouter le hex également
 
             // Utiliser setTimeout pour s'assurer que la couleur est ajoutée avant la sélection
             setTimeout(() => {

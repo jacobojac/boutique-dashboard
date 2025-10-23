@@ -228,6 +228,7 @@ export function OrdersTable({
             <TableRow>
               <TableHead className="font-semibold">N° Commande</TableHead>
               <TableHead className="font-semibold">Client</TableHead>
+              <TableHead className="font-semibold">Email</TableHead>
               <TableHead className="font-semibold">Statut</TableHead>
               <TableHead className="font-semibold">Articles</TableHead>
               <TableHead className="font-semibold">Réduction</TableHead>
@@ -242,7 +243,7 @@ export function OrdersTable({
           <TableBody>
             {paginatedOrders.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={9} className="text-center py-8">
+                <TableCell colSpan={10} className="text-center py-8">
                   <div className="flex flex-col items-center gap-2">
                     <IconPackage className="h-12 w-12 text-gray-400 dark:text-gray-500" />
                     <p className="text-gray-500 dark:text-gray-400">
@@ -269,16 +270,20 @@ export function OrdersTable({
                       <span className="font-medium">#{order.orderNumber}</span>
                     </TableCell>
                     <TableCell>
-                      <div>
-                        <div className="font-medium">
-                          {order.customerName || "Client anonyme"}
-                        </div>
-                        {order.customerEmail && (
-                          <div className="text-sm text-gray-500 dark:text-gray-400">
-                            {order.customerEmail}
-                          </div>
-                        )}
+                      <div className="font-medium">
+                        {order.customerName || "Client anonyme"}
                       </div>
+                    </TableCell>
+                    <TableCell>
+                      {order.customerEmail ? (
+                        <span className="text-sm text-gray-700 dark:text-gray-300">
+                          {order.customerEmail}
+                        </span>
+                      ) : (
+                        <span className="text-sm text-gray-400 dark:text-gray-500">
+                          -
+                        </span>
+                      )}
                     </TableCell>
                     <TableCell>
                       <Button
