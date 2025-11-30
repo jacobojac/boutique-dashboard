@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { key, value, type, section, description } = body;
 
-    if (!key || !value || !type || !section) {
+    if (!key || value === undefined || !type || !section) {
       return NextResponse.json(
         { error: "Tous les champs sont requis" },
         { status: 400 }

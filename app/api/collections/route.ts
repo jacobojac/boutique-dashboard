@@ -17,14 +17,23 @@ export async function POST(req: NextRequest) {
 
     const validatedData = collectionSchema.parse(body);
 
-    const slug = createSlug(validatedData.nom);
-    /* console.log("body:", body);
-    console.log("validatedData:", validatedData);
-    console.log("slug:", slug);
-    return NextResponse.json(
-      { message: "Collection received", slug },
-      { status: 200 }
-    ); */
+    let slug = createSlug(validatedData.nom);
+
+    // Vérifier si le slug existe déjà et générer un slug unique si nécessaire
+    const existingCollection = await prisma.collection.findUnique({
+      where: { slug },
+    });
+
+    if (existingCollection) {
+      // Ajouter un suffixe numérique pour rendre le slug unique
+      let counter = 1;
+      let newSlug = `${slug}-${counter}`;
+      while (await prisma.collection.findUnique({ where: { slug: newSlug } })) {
+        counter++;
+        newSlug = `${slug}-${counter}`;
+      }
+      slug = newSlug;
+    }
 
     const newCollection = await prisma.collection.create({
       data: {

@@ -22,6 +22,7 @@ export type ProductVariant = {
   couleurHex: string | null;
   prix: number | null;
   quantity: number;
+  stockZeroEnabled: boolean;
   sku: string | null;
   createdAt: Date;
   updatedAt: Date;

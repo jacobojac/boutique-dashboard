@@ -12,13 +12,13 @@ const variantSchema = z.object({
     .string()
     .optional()
     .transform((val) => (val ? parseFloat(val) : undefined)),
-  quantity: z.string().transform((val) => parseInt(val) || 0),
+  stockZeroEnabled: z.boolean().optional().default(false),
   sku: z.string().optional(),
 });
 
 const productSchema = z.object({
   nom: z.string().min(3),
-  description: z.string(),
+  description: z.string().optional().default(""),
   prix: z.string().transform((val) => parseFloat(val)),
   prixReduit: z
     .string()
@@ -62,12 +62,12 @@ export async function POST(req: NextRequest) {
         },
         variants: {
           create: validatedData.variants.map((variant) => ({
-            taille: variant.taille,
-            couleur: variant.couleur,
-            couleurHex: variant.couleurHex,
+            taille: variant.taille || null,
+            couleur: variant.couleur || null,
+            couleurHex: variant.couleurHex || null,
             prix: variant.prix,
-            quantity: variant.quantity,
-            sku: variant.sku,
+            stockZeroEnabled: variant.stockZeroEnabled ?? false,
+            sku: variant.sku || null,
           })),
         },
       },

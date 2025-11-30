@@ -50,30 +50,8 @@ const heroSchema = z.object({
 });
 
 const categoriesSchema = z.object({
-  categories_section_title: z.string().min(1, "Le titre est requis"),
-  categories_section_description: z
-    .string()
-    .min(1, "La description est requise"),
-  category_1_name: z.string().min(1, "Le nom est requis"),
-  category_1_subtitle: z.string(),
-  category_1_button_text: z.string(),
-  category_1_link: z.string(),
-  category_1_image: z.string(),
-  category_2_name: z.string().min(1, "Le nom est requis"),
-  category_2_subtitle: z.string(),
-  category_2_button_text: z.string(),
-  category_2_link: z.string(),
-  category_2_image: z.string(),
-  category_3_name: z.string().min(1, "Le nom est requis"),
-  category_3_subtitle: z.string(),
-  category_3_button_text: z.string(),
-  category_3_link: z.string(),
-  category_3_image: z.string(),
-  category_4_name: z.string().min(1, "Le nom est requis"),
-  category_4_subtitle: z.string(),
-  category_4_button_text: z.string(),
-  category_4_link: z.string(),
-  category_4_image: z.string(),
+  category_homme_image: z.string(),
+  category_femme_image: z.string(),
 });
 
 const promoSchema = z.object({
@@ -120,57 +98,34 @@ export default function PersoForm() {
   const headerForm = useForm<HeaderFormData>({
     resolver: zodResolver(headerSchema),
     defaultValues: {
-      announcement_message: "Nouvelle collection disponible",
-      announcement_message_2:
-        "🔥 Profitez de nos codes de réduction sur tous nos produits !",
+      announcement_message: "",
+      announcement_message_2: "",
     },
   });
 
   const heroForm = useForm<HeroFormData>({
     resolver: zodResolver(heroSchema),
     defaultValues: {
-      homepage_hero_image: "/images/banniere.png",
-      homepage_hero_title: "Ta personnalité mérite le meilleur style",
-      homepage_hero_subtitle: "Nouvelle Collection",
-      homepage_hero_button_text: "Découvrir la collection",
+      homepage_hero_image: "",
+      homepage_hero_title: "",
+      homepage_hero_subtitle: "",
+      homepage_hero_button_text: "",
     },
   });
 
   const categoriesForm = useForm<CategoriesFormData>({
     resolver: zodResolver(categoriesSchema),
     defaultValues: {
-      categories_section_title: "Nos catégories",
-      categories_section_description:
-        "Découvrez notre sélection soigneusement choisie pour chaque style et occasion",
-      category_1_name: "Vêtements Femme",
-      category_1_subtitle: "Style élégant pour toutes occasions",
-      category_1_button_text: "Découvrir",
-      category_1_link: "/store/vetements-femme",
-      category_1_image: "/images/category-femme.jpg",
-      category_2_name: "Vêtements Homme",
-      category_2_subtitle: "Collection moderne et raffinée",
-      category_2_button_text: "Explorer",
-      category_2_link: "/store/vetements-homme",
-      category_2_image: "/images/category-homme.jpg",
-      category_3_name: "Accessoires",
-      category_3_subtitle: "Complétez votre look parfait",
-      category_3_button_text: "Voir tout",
-      category_3_link: "/store/accessoires",
-      category_3_image: "/images/category-accessoires.jpg",
-      category_4_name: "Chaussures",
-      category_4_subtitle: "Confort et style à chaque pas",
-      category_4_button_text: "Découvrir",
-      category_4_link: "/store/chaussures",
-      category_4_image: "/images/category-chaussures.jpg",
+      category_homme_image: "",
+      category_femme_image: "",
     },
   });
 
   const promoForm = useForm<PromoFormData>({
     resolver: zodResolver(promoSchema),
     defaultValues: {
-      promo_section_title: "LIMITED OFFER",
-      promo_section_description:
-        "Des arrivages permanents pour tous les goûts.",
+      promo_section_title: "",
+      promo_section_description: "",
     },
   });
 
@@ -179,8 +134,8 @@ export default function PersoForm() {
     defaultValues: {
       selected_discount_id: "",
       promo_discount_enabled: false,
-      promo_discount_text: "Bénéficiez de votre réduction dès maintenant",
-      promo_section_image: "/images/promo-background.jpg",
+      promo_discount_text: "",
+      promo_section_image: "",
     },
   });
 
@@ -215,84 +170,32 @@ export default function PersoForm() {
 
       // Mettre à jour les formulaires avec les valeurs de la base
       headerForm.reset({
-        announcement_message:
-          configMap["announcement_message"] || "Nouvelle collection disponible",
-        announcement_message_2:
-          configMap["announcement_message_2"] ||
-          "🔥 Profitez de nos codes de réduction sur tous nos produits !",
+        announcement_message: configMap["announcement_message"] || "",
+        announcement_message_2: configMap["announcement_message_2"] || "",
       });
 
       heroForm.reset({
-        homepage_hero_image:
-          configMap["homepage_hero_image"] ?? "/images/banniere.png",
-        homepage_hero_title:
-          configMap["homepage_hero_title"] ??
-          "Ta personnalité mérite le meilleur style",
-        homepage_hero_subtitle:
-          configMap["homepage_hero_subtitle"] ?? "Nouvelle Collection",
-        homepage_hero_button_text:
-          configMap["homepage_hero_button_text"] ?? "Découvrir la collection",
+        homepage_hero_image: configMap["homepage_hero_image"] || "",
+        homepage_hero_title: configMap["homepage_hero_title"] || "",
+        homepage_hero_subtitle: configMap["homepage_hero_subtitle"] || "",
+        homepage_hero_button_text: configMap["homepage_hero_button_text"] || "",
       });
 
       categoriesForm.reset({
-        categories_section_title:
-          configMap["categories_section_title"] || "Nos catégories",
-        categories_section_description:
-          configMap["categories_section_description"] ||
-          "Découvrez notre sélection soigneusement choisie pour chaque style et occasion",
-        category_1_name: configMap["category_1_name"] || "Vêtements Femme",
-        category_1_subtitle:
-          configMap["category_1_subtitle"] ||
-          "Style élégant pour toutes occasions",
-        category_1_button_text:
-          configMap["category_1_button_text"] || "Découvrir",
-        category_1_link:
-          configMap["category_1_link"] || "/store/vetements-femme",
-        category_1_image:
-          configMap["category_1_image"] || "/images/category-femme.jpg",
-        category_2_name: configMap["category_2_name"] || "Vêtements Homme",
-        category_2_subtitle:
-          configMap["category_2_subtitle"] || "Collection moderne et raffinée",
-        category_2_button_text:
-          configMap["category_2_button_text"] || "Explorer",
-        category_2_link:
-          configMap["category_2_link"] || "/store/vetements-homme",
-        category_2_image:
-          configMap["category_2_image"] || "/images/category-homme.jpg",
-        category_3_name: configMap["category_3_name"] || "Accessoires",
-        category_3_subtitle:
-          configMap["category_3_subtitle"] || "Complétez votre look parfait",
-        category_3_button_text:
-          configMap["category_3_button_text"] || "Voir tout",
-        category_3_link: configMap["category_3_link"] || "/store/accessoires",
-        category_3_image:
-          configMap["category_3_image"] || "/images/category-accessoires.jpg",
-        category_4_name: configMap["category_4_name"] || "Chaussures",
-        category_4_subtitle:
-          configMap["category_4_subtitle"] || "Confort et style à chaque pas",
-        category_4_button_text:
-          configMap["category_4_button_text"] || "Découvrir",
-        category_4_link: configMap["category_4_link"] || "/store/chaussures",
-        category_4_image:
-          configMap["category_4_image"] || "/images/category-chaussures.jpg",
+        category_homme_image: configMap["category_homme_image"] || "",
+        category_femme_image: configMap["category_femme_image"] || "",
       });
 
       promoForm.reset({
-        promo_section_title:
-          configMap["promo_section_title"] || "LIMITED OFFER",
-        promo_section_description:
-          configMap["promo_section_description"] ||
-          "Des arrivages permanents pour tous les goûts.",
+        promo_section_title: configMap["promo_section_title"] || "",
+        promo_section_description: configMap["promo_section_description"] || "",
       });
 
       discountConfigForm.reset({
         selected_discount_id: configMap["selected_discount_id"] || "",
         promo_discount_enabled: configMap["promo_discount_enabled"] === "true",
-        promo_discount_text:
-          configMap["promo_discount_text"] ||
-          "Bénéficiez de votre réduction dès maintenant",
-        promo_section_image:
-          configMap["promo_section_image"] || "/images/promo-background.jpg",
+        promo_discount_text: configMap["promo_discount_text"] || "",
+        promo_section_image: configMap["promo_section_image"] || "",
       });
     } catch (error) {
       console.error("Erreur lors du chargement:", error);
@@ -314,14 +217,14 @@ export default function PersoForm() {
       // Header Section
       {
         key: "announcement_message",
-        value: "Nouvelle collection disponible",
+        value: "",
         type: "text",
         section: "header",
         description: "Premier message d'annonce en haut de la page",
       },
       {
         key: "announcement_message_2",
-        value: "🔥 Profitez de nos codes de réduction sur tous nos produits !",
+        value: "",
         type: "text",
         section: "header",
         description: "Deuxième message d'annonce en haut de la page",
@@ -329,28 +232,28 @@ export default function PersoForm() {
       // Hero Section
       {
         key: "homepage_hero_image",
-        value: "/images/banniere.png",
+        value: "",
         type: "image",
         section: "homepage",
-        description: "Image principale de la page &#39;accueil",
+        description: "Image principale de la page d'accueil",
       },
       {
         key: "homepage_hero_title",
-        value: "Ta personnalité mérite le meilleur style",
+        value: "",
         type: "text",
         section: "homepage",
-        description: "Titre principal de la page &#39;accueil",
+        description: "Titre principal de la page d'accueil",
       },
       {
         key: "homepage_hero_subtitle",
-        value: "Nouvelle Collection",
+        value: "",
         type: "text",
         section: "homepage",
-        description: "Sous-titre de la page &#39;accueil",
+        description: "Sous-titre de la page d'accueil",
       },
       {
         key: "homepage_hero_button_text",
-        value: "Découvrir la collection",
+        value: "",
         type: "text",
         section: "homepage",
         description: "Texte du bouton",
@@ -358,184 +261,38 @@ export default function PersoForm() {
 
       // Categories Section
       {
-        key: "categories_section_title",
-        value: "Nos catégories",
-        type: "text",
-        section: "categories",
-        description: "Titre de la section catégories",
-      },
-      {
-        key: "categories_section_description",
-        value:
-          "Découvrez notre sélection soigneusement choisie pour chaque style et occasion",
-        type: "text",
-        section: "categories",
-        description: "Description de la section catégories",
-      },
-
-      // Categories 1-4
-      {
-        key: "category_1_name",
-        value: "Vêtements Femme",
-        type: "text",
-        section: "categories",
-        description: "Nom de la catégorie 1",
-      },
-      {
-        key: "category_1_subtitle",
-        value: "ÉLEGANCE & Confort",
-        type: "text",
-        section: "categories",
-        description: "Sous-titre de la catégorie 1",
-      },
-      {
-        key: "category_1_button_text",
-        value: "Découvrir",
-        type: "text",
-        section: "categories",
-        description: "Texte du bouton catégorie 1",
-      },
-      {
-        key: "category_1_link",
-        value: "/store/vetements-femme",
-        type: "text",
-        section: "categories",
-        description: "Lien de la catégorie 1",
-      },
-      {
-        key: "category_1_image",
-        value: "/images/category-femme.jpg",
+        key: "category_homme_image",
+        value: "",
         type: "image",
         section: "categories",
-        description: "Image de la catégorie 1",
-      },
-
-      {
-        key: "category_2_name",
-        value: "Vêtements Homme",
-        type: "text",
-        section: "categories",
-        description: "Nom de la catégorie 2",
+        description: "Image de la catégorie Homme",
       },
       {
-        key: "category_2_subtitle",
-        value: "Style & Performace",
-        type: "text",
-        section: "categories",
-        description: "Sous-titre de la catégorie 2",
-      },
-      {
-        key: "category_2_button_text",
-        value: "Explorer",
-        type: "text",
-        section: "categories",
-        description: "Texte du bouton catégorie 2",
-      },
-      {
-        key: "category_2_link",
-        value: "/store/vetements-homme",
-        type: "text",
-        section: "categories",
-        description: "Lien de la catégorie 2",
-      },
-      {
-        key: "category_2_image",
-        value: "/images/category-homme.jpg",
+        key: "category_femme_image",
+        value: "",
         type: "image",
         section: "categories",
-        description: "Image de la catégorie 2",
-      },
-
-      {
-        key: "category_3_name",
-        value: "Chaussures femme",
-        type: "text",
-        section: "categories",
-        description: "Nom de la catégorie 3",
-      },
-      {
-        key: "category_3_subtitle",
-        value: "Tendance & Qualité",
-        type: "text",
-        section: "categories",
-        description: "Sous-titre de la catégorie 3",
-      },
-      {
-        key: "category_3_button_text",
-        value: "Voir tout",
-        type: "text",
-        section: "categories",
-        description: "Texte du bouton catégorie 3",
-      },
-      {
-        key: "category_3_link",
-        value: "/store/accessoires",
-        type: "text",
-        section: "categories",
-        description: "Lien de la catégorie 3",
-      },
-      {
-        key: "category_3_image",
-        value: "/images/category-accessoires.jpg",
-        type: "image",
-        section: "categories",
-        description: "Image de la catégorie 3",
-      },
-
-      {
-        key: "category_4_name",
-        value: "Chaussures homme",
-        type: "text",
-        section: "categories",
-        description: "Nom de la catégorie 4",
-      },
-      {
-        key: "category_4_subtitle",
-        value: "Confort & Durabilité",
-        type: "text",
-        section: "categories",
-        description: "Sous-titre de la catégorie 4",
-      },
-      {
-        key: "category_4_button_text",
-        value: "Découvrir",
-        type: "text",
-        section: "categories",
-        description: "Texte du bouton catégorie 4",
-      },
-      {
-        key: "category_4_link",
-        value: "/store/chaussures",
-        type: "text",
-        section: "categories",
-        description: "Lien de la catégorie 4",
-      },
-      {
-        key: "category_4_image",
-        value: "/images/category-chaussures.jpg",
-        type: "image",
-        section: "categories",
-        description: "Image de la catégorie 4",
+        description: "Image de la catégorie Femme",
       },
 
       // Promo Section
       {
         key: "promo_section_image",
-        value: "/images/promo-background.jpg",
+        value: "",
         type: "image",
         section: "promo",
         description: "Image de fond de la section promotionnelle",
       },
       {
         key: "promo_section_title",
-        value: "LIMITED OFFER",
+        value: "",
         type: "text",
         section: "promo",
         description: "Titre de la section vidéo",
       },
       {
         key: "promo_section_description",
-        value: "Des arrivages permanents pour tous les goûts.",
+        value: "",
         type: "text",
         section: "promo",
         description: "Description de la section vidéo",
@@ -558,7 +315,7 @@ export default function PersoForm() {
       },
       {
         key: "promo_discount_text",
-        value: "Bénéficiez de votre réduction dès maintenant",
+        value: "",
         type: "text",
         section: "discount",
         description: "Texte d'accroche pour la réduction",
@@ -680,19 +437,22 @@ export default function PersoForm() {
 
       // Mettre à jour les URLs dans les données avec les URLs uploadées
       const updatedData = { ...data };
-      Object.entries(updatedData).forEach(([key, value]) => {
-        if (key.includes("image") && typeof value === "string") {
-          // Chercher si cette image correspond à une image en attente
-          const pendingImg = pendingImages.find((img) =>
-            img.id.startsWith(key)
-          );
-          if (pendingImg && uploadMap[pendingImg.id]) {
-            updatedData[key as keyof CategoriesFormData] = uploadMap[
-              pendingImg.id
-            ] as string;
-          }
-        }
-      });
+
+      // Pour category_homme_image
+      const pendingImgHomme = pendingImages.find((img) =>
+        img.id.startsWith("category_homme_image")
+      );
+      if (pendingImgHomme && uploadMap[pendingImgHomme.id]) {
+        updatedData.category_homme_image = uploadMap[pendingImgHomme.id];
+      }
+
+      // Pour category_femme_image
+      const pendingImgFemme = pendingImages.find((img) =>
+        img.id.startsWith("category_femme_image")
+      );
+      if (pendingImgFemme && uploadMap[pendingImgFemme.id]) {
+        updatedData.category_femme_image = uploadMap[pendingImgFemme.id];
+      }
 
       const promises = Object.entries(updatedData).map(([key, value]) =>
         fetch(`/api/site-config/${key}`, {
@@ -874,18 +634,32 @@ export default function PersoForm() {
     try {
       setIsUploading(true);
 
-      const promises = Object.entries(data).map(([key, value]) =>
-        fetch(`/api/site-config/${key}`, {
+      const promises = Object.entries(data).map(async ([key, value]) => {
+        const payload = {
+          key,
+          value: value || "",
+          type: "text",
+          section: "header",
+          description: getDescription(key),
+        };
+
+        // Essayer PUT d'abord, puis POST si ça échoue
+        const putResponse = await fetch(`/api/site-config/${key}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            value,
-            type: "text",
-            section: "header",
-            description: getDescription(key),
-          }),
-        })
-      );
+          body: JSON.stringify(payload),
+        });
+
+        if (!putResponse.ok) {
+          return fetch(`/api/site-config`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+        }
+
+        return putResponse;
+      });
 
       await Promise.all(promises);
 
@@ -913,28 +687,8 @@ export default function PersoForm() {
       homepage_hero_title: "Titre principal de la page &#39;accueil",
       homepage_hero_subtitle: "Sous-titre de la page &#39;accueil",
       homepage_hero_button_text: "Texte du bouton",
-      categories_section_title: "Titre de la section catégories",
-      categories_section_description: "Description de la section catégories",
-      category_1_name: "Nom de la catégorie 1",
-      category_1_subtitle: "Sous-titre de la catégorie 1",
-      category_1_button_text: "Texte du bouton catégorie 1",
-      category_1_link: "Lien de la catégorie 1",
-      category_1_image: "Image de la catégorie 1",
-      category_2_name: "Nom de la catégorie 2",
-      category_2_subtitle: "Sous-titre de la catégorie 2",
-      category_2_button_text: "Texte du bouton catégorie 2",
-      category_2_link: "Lien de la catégorie 2",
-      category_2_image: "Image de la catégorie 2",
-      category_3_name: "Nom de la catégorie 3",
-      category_3_subtitle: "Sous-titre de la catégorie 3",
-      category_3_button_text: "Texte du bouton catégorie 3",
-      category_3_link: "Lien de la catégorie 3",
-      category_3_image: "Image de la catégorie 3",
-      category_4_name: "Nom de la catégorie 4",
-      category_4_subtitle: "Sous-titre de la catégorie 4",
-      category_4_button_text: "Texte du bouton catégorie 4",
-      category_4_link: "Lien de la catégorie 4",
-      category_4_image: "Image de la catégorie 4",
+      category_homme_image: "Image de la catégorie Homme",
+      category_femme_image: "Image de la catégorie Femme",
       promo_section_image: "Image de fond de la section promotionnelle",
       promo_section_title: "Titre de la section vidéo",
       promo_section_description: "Description de la section vidéo",
@@ -1042,9 +796,14 @@ export default function PersoForm() {
                         className="w-full cursor-pointer"
                         disabled={isUploading}
                       >
-                        {isUploading
-                          ? "Upload et sauvegarde..."
-                          : "Sauvegarder la section Header"}
+                        {isUploading ? (
+                          <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                            Upload et sauvegarde...
+                          </>
+                        ) : (
+                          "Sauvegarder la section Header"
+                        )}
                       </Button>
                     </form>
                   </Form>
@@ -1144,9 +903,14 @@ export default function PersoForm() {
                         className="w-full cursor-pointer"
                         disabled={isUploading}
                       >
-                        {isUploading
-                          ? "Upload et sauvegarde..."
-                          : "Sauvegarder la section Hero"}
+                        {isUploading ? (
+                          <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                            Upload et sauvegarde...
+                          </>
+                        ) : (
+                          "Sauvegarder la section Hero"
+                        )}
                       </Button>
                     </form>
                   </Form>
@@ -1169,146 +933,57 @@ export default function PersoForm() {
                       )}
                       className="space-y-6"
                     >
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <FormField
-                          control={categoriesForm.control}
-                          name="categories_section_title"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Titre de la section</FormLabel>
-                              <FormControl>
-                                <Input
-                                  {...field}
-                                  placeholder="Nos catégories"
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={categoriesForm.control}
-                          name="categories_section_description"
-                          render={({ field }) => (
-                            <FormItem className="md:col-span-2">
-                              <FormLabel>Description de la section</FormLabel>
-                              <FormControl>
-                                <Textarea
-                                  {...field}
-                                  placeholder="Découvrez notre sélection..."
-                                  rows={3}
-                                />
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      {/* Catégories 1-4 */}
+                      {/* Catégories Homme et Femme */}
                       <div className="space-y-6">
-                        {[1, 2, 3, 4].map((num) => (
-                          <div
-                            key={num}
-                            className="border rounded-lg p-4 space-y-4"
-                          >
-                            <h4 className="font-medium text-sm text-gray-700">
-                              Catégorie {num}
-                            </h4>
+                        {/* Catégorie Homme */}
+                        <div className="border rounded-lg p-4 space-y-4">
+                          <h4 className="font-medium text-sm text-gray-700">
+                            Catégorie Homme
+                          </h4>
+                          <FormField
+                            control={categoriesForm.control}
+                            name="category_homme_image"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormControl>
+                                  <UploadSiteImageDeferred
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    label="Image de la catégorie Homme"
+                                    description="Sélectionnez une image à uploader ou saisissez une URL directement"
+                                    imageKey="category_homme_image"
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
 
-                            {/* Image de la catégorie */}
-                            <FormField
-                              control={categoriesForm.control}
-                              name={
-                                `category_${num}_image` as keyof CategoriesFormData
-                              }
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormControl>
-                                    <UploadSiteImageDeferred
-                                      value={field.value}
-                                      onChange={field.onChange}
-                                      label={`Image de la catégorie ${num}`}
-                                      description="Sélectionnez une image à uploader ou saisissez une URL directement"
-                                      imageKey={`category_${num}_image`}
-                                    />
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                              <FormField
-                                control={categoriesForm.control}
-                                name={
-                                  `category_${num}_name` as keyof CategoriesFormData
-                                }
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <FormLabel>Nom</FormLabel>
-                                    <FormControl>
-                                      <Input {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-
-                              <FormField
-                                control={categoriesForm.control}
-                                name={
-                                  `category_${num}_subtitle` as keyof CategoriesFormData
-                                }
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <FormLabel>Sous-titre</FormLabel>
-                                    <FormControl>
-                                      <Input {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-
-                              <FormField
-                                control={categoriesForm.control}
-                                name={
-                                  `category_${num}_button_text` as keyof CategoriesFormData
-                                }
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <FormLabel>Texte du bouton</FormLabel>
-                                    <FormControl>
-                                      <Input {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-
-                              <FormField
-                                control={categoriesForm.control}
-                                name={
-                                  `category_${num}_link` as keyof CategoriesFormData
-                                }
-                                render={({ field }) => (
-                                  <FormItem>
-                                    <FormLabel>Lien</FormLabel>
-                                    <FormControl>
-                                      <Input
-                                        {...field}
-                                        placeholder="/store/..."
-                                      />
-                                    </FormControl>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-                            </div>
-                          </div>
-                        ))}
+                        {/* Catégorie Femme */}
+                        <div className="border rounded-lg p-4 space-y-4">
+                          <h4 className="font-medium text-sm text-gray-700">
+                            Catégorie Femme
+                          </h4>
+                          <FormField
+                            control={categoriesForm.control}
+                            name="category_femme_image"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormControl>
+                                  <UploadSiteImageDeferred
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    label="Image de la catégorie Femme"
+                                    description="Sélectionnez une image à uploader ou saisissez une URL directement"
+                                    imageKey="category_femme_image"
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
                       </div>
 
                       <Button
@@ -1316,9 +991,14 @@ export default function PersoForm() {
                         className="w-full cursor-pointer"
                         disabled={isUploading}
                       >
-                        {isUploading
-                          ? "Upload et sauvegarde..."
-                          : "Sauvegarder la section Catégories"}
+                        {isUploading ? (
+                          <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                            Upload et sauvegarde...
+                          </>
+                        ) : (
+                          "Sauvegarder la section Catégories"
+                        )}
                       </Button>
                     </form>
                   </Form>
@@ -1378,9 +1058,14 @@ export default function PersoForm() {
                         className="w-full cursor-pointer"
                         disabled={isUploading}
                       >
-                        {isUploading
-                          ? "Upload et sauvegarde..."
-                          : "Sauvegarder la section Promotion"}
+                        {isUploading ? (
+                          <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                            Upload et sauvegarde...
+                          </>
+                        ) : (
+                          "Sauvegarder la section Promotion"
+                        )}
                       </Button>
                     </form>
                   </Form>
@@ -1709,9 +1394,14 @@ export default function PersoForm() {
                         className="w-full cursor-pointer"
                         disabled={isUploading}
                       >
-                        {isUploading
-                          ? "Sauvegarde en cours..."
-                          : "Sauvegarder la configuration des réductions"}
+                        {isUploading ? (
+                          <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                            Sauvegarde en cours...
+                          </>
+                        ) : (
+                          "Sauvegarder la configuration des réductions"
+                        )}
                       </Button>
                     </form>
                   </Form>

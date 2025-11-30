@@ -449,11 +449,11 @@ export function ProductsTable({ data }: ProductsTableProps) {
                 variant="destructive"
                 className="w-full sm:w-auto cursor-pointer"
               >
-                <IconMinus className="mr-2 h-4 w-4" />
-                <span className="sm:hidden">
+                <IconMinus className="mr-2 h-4 w-4 text-white" />
+                <span className="sm:hidden text-white">
                   Retirer ({selectedProducts.size})
                 </span>
-                <span className="hidden sm:inline">
+                <span className="hidden sm:inline text-white">
                   Retirer collection ({selectedProducts.size})
                 </span>
               </Button>
@@ -508,8 +508,10 @@ export function ProductsTable({ data }: ProductsTableProps) {
               </TableRow>
             ) : (
               paginatedProducts.map((product) => {
-                const hasNouveautesCollection = product.collections.some(
-                  (pc) => pc.collection.nom.toLowerCase() === "nouveautés"
+                const hasBestSellersCollection = product.collections.some(
+                  (pc) =>
+                    pc.collection.slug === "best-sellers" ||
+                    pc.collection.nom.toLowerCase().includes("best")
                 );
                 const hasReduction =
                   product.prixReduit != null && product.prixReduit > 0;
@@ -575,9 +577,9 @@ export function ProductsTable({ data }: ProductsTableProps) {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-1">
-                        {hasNouveautesCollection && (
+                        {hasBestSellersCollection && (
                           <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-blue-500 rounded-full">
-                            N
+                            B
                           </span>
                         )}
                         {hasReduction && (
@@ -876,11 +878,11 @@ export function ProductsTable({ data }: ProductsTableProps) {
                 </>
               ) : (
                 <>
-                  <IconTrash className="mr-2 h-4 w-4" />
-                  <span className="hidden sm:inline">
+                  <IconTrash className="mr-2 h-4 w-4 text-white" />
+                  <span className="hidden sm:inline text-white">
                     Retirer de la collection
                   </span>
-                  <span className="sm:hidden">Retirer</span>
+                  <span className="sm:hidden text-white">Retirer</span>
                 </>
               )}
             </Button>

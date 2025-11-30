@@ -48,7 +48,7 @@ const variantSchema = z.object({
   couleur: z.string().optional(),
   couleurHex: z.string().optional(),
   prix: z.string().optional(),
-  quantity: z.string(),
+  stockZeroEnabled: z.boolean().default(false),
   sku: z.string().optional(),
 });
 
@@ -86,6 +86,7 @@ export const EditProductForm = ({ product }: { product: TypeProduct }) => {
     fieldOnChange: (value: unknown[]) => void;
   } | null>(null);
   const fieldOnChangeRef = useRef<((value: unknown[]) => void) | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Listes prédéfinies pour les variantes
   const tailles = [
@@ -167,7 +168,7 @@ export const EditProductForm = ({ product }: { product: TypeProduct }) => {
             couleur: variant.couleur || undefined,
             couleurHex: variant.couleurHex || undefined,
             prix: variant.prix ? String(variant.prix) : "",
-            quantity: variant.quantity ? String(variant.quantity) : "0",
+            stockZeroEnabled: variant.stockZeroEnabled || false,
             sku: variant.sku || undefined,
           })) || [],
       });
@@ -230,6 +231,8 @@ export const EditProductForm = ({ product }: { product: TypeProduct }) => {
   };
 
   async function onSubmit(values: z.infer<typeof productSchema>) {
+    setIsSubmitting(true);
+
     try {
       let imageUrls = values.images || [];
 
@@ -297,6 +300,8 @@ export const EditProductForm = ({ product }: { product: TypeProduct }) => {
     } catch (error) {
       console.error("General error:", error);
       toast.error("Erreur lors de la modification");
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -553,7 +558,7 @@ export const EditProductForm = ({ product }: { product: TypeProduct }) => {
                           couleur: "",
                           couleurHex: "",
                           prix: "",
-                          quantity: "0",
+                          stockZeroEnabled: false,
                           sku: "",
                         };
                         field.onChange([...(field.value || []), newVariant]);
@@ -740,23 +745,25 @@ export const EditProductForm = ({ product }: { product: TypeProduct }) => {
                             </Select>
                           </div>
 
-                          {/* Prix spécifique */}
-
-                          {/* Quantité */}
+                          {/* Stock à 0 */}
                           <div className="space-y-2">
                             <label className="text-sm font-medium">
-                              Quantité
+                              Stock à 0
                             </label>
-                            <Input
-                              type="number"
-                              placeholder="0"
-                              value={variant.quantity}
-                              onChange={(e) => {
-                                const newVariants = [...(field.value || [])];
-                                newVariants[index].quantity = e.target.value;
-                                field.onChange(newVariants);
-                              }}
-                            />
+                            <div className="flex items-center gap-2">
+                              <Switch
+                                checked={variant.stockZeroEnabled}
+                                onCheckedChange={(checked) => {
+                                  const newVariants = [...(field.value || [])];
+                                  newVariants[index].stockZeroEnabled = checked;
+                                  field.onChange(newVariants);
+                                }}
+                                className={variant.stockZeroEnabled ? "data-[state=checked]:bg-red-500" : ""}
+                              />
+                              <span className={`text-xs ${variant.stockZeroEnabled ? "text-red-500 font-medium" : "text-gray-500"}`}>
+                                {variant.stockZeroEnabled ? "Activé" : "Désactivé"}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </Card>
@@ -771,9 +778,19 @@ export const EditProductForm = ({ product }: { product: TypeProduct }) => {
               type="submit"
               variant="ghost"
               size="lg"
-              className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear mt-20 cursor-pointer"
+              disabled={isSubmitting}
+              className="bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground min-w-8 duration-200 ease-linear mt-20 cursor-pointer disabled:opacity-50"
             >
-              Modifier
+              {isSubmitting ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  {pendingImages.length > 0
+                    ? "Upload des images..."
+                    : "Modification..."}
+                </>
+              ) : (
+                "Modifier"
+              )}
             </Button>
           </form>
         </Form>

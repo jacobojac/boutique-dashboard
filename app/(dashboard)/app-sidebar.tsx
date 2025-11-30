@@ -6,6 +6,7 @@ import {
   IconFileDescription,
   IconInnerShadowTop,
   IconLogout,
+  IconMenu,
   IconPackage,
   IconPalette,
   IconRosetteDiscount,
@@ -32,7 +33,7 @@ import { NavWebSite } from "./nav-website";
 
 const data = {
   /*  user: {
-    name: "IW STORE",
+    name: "ELITE CORNER",
     email: "m@example.com",
     avatar: "/avatars/shadcn.jpg",
   }, */
@@ -119,6 +120,16 @@ const data = {
       url: "/personnaliser",
       icon: IconPalette,
     },
+    {
+      name: "Menu",
+      url: "/menu",
+      icon: IconMenu,
+    },
+    /* {
+      name: "Studio photos",
+      url: "/studio-photo",
+      icon: IconCamera,
+    }, */
   ],
 };
 
@@ -136,7 +147,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             >
               <a href="#">
                 <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">IW Store</span>
+                <span className="text-base font-semibold">ELITE CORNER</span>
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>

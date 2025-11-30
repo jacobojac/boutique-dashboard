@@ -151,17 +151,18 @@ model Product {
 }
 
 model ProductVariant {
-  id         String   @id @default(cuid())
-  productId  String
-  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
-  taille     String?
-  couleur    String?
-  couleurHex String?
-  prix       Float?
-  quantity   Int      @default(0)
-  sku        String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id               String   @id @default(cuid())
+  productId        String
+  product          Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  taille           String?
+  couleur          String?
+  couleurHex       String?
+  prix             Float?
+  quantity         Int      @default(0)
+  stockZeroEnabled Boolean  @default(false)
+  sku              String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   @@unique([productId, taille, couleur])
   @@map("product_variant")

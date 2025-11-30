@@ -12,13 +12,13 @@ const variantSchema = z.object({
     .string()
     .optional()
     .transform((val) => (val ? parseFloat(val) : undefined)),
-  quantity: z.string().transform((val) => parseInt(val) || 0),
+  stockZeroEnabled: z.boolean().optional().default(false),
   sku: z.string().optional(),
 });
 
 const productSchema = z.object({
   nom: z.string().min(3),
-  description: z.string(),
+  description: z.string().optional().default(""),
   prix: z.string().transform((val) => parseFloat(val)),
   prixReduit: z
     .string()
@@ -41,7 +41,9 @@ export async function POST(
   try {
     const { productId } = await params;
     const body = await req.json();
+    console.log("Body received:", JSON.stringify(body, null, 2));
     const validatedData = productSchema.parse(body);
+    console.log("Validated data:", JSON.stringify(validatedData, null, 2));
 
     // Récupérer les collections par nom pour obtenir leurs IDs (comme dans route.ts)
     const collections = await prisma.collection.findMany({
@@ -82,12 +84,12 @@ export async function POST(
         },
         variants: {
           create: validatedData.variants.map((variant) => ({
-            taille: variant.taille,
-            couleur: variant.couleur,
-            couleurHex: variant.couleurHex,
+            taille: variant.taille || null,
+            couleur: variant.couleur || null,
+            couleurHex: variant.couleurHex || null,
             prix: variant.prix,
-            quantity: variant.quantity,
-            sku: variant.sku,
+            stockZeroEnabled: variant.stockZeroEnabled ?? false,
+            sku: variant.sku || null,
           })),
         },
       },
@@ -104,6 +106,13 @@ export async function POST(
     return NextResponse.json(updatedProduct, { status: 200 });
   } catch (error) {
     console.error("Error updating product:", error);
+    if (error instanceof z.ZodError) {
+      console.error("Zod validation errors:", JSON.stringify(error.issues, null, 2));
+      return NextResponse.json(
+        { error: "Erreur de validation", details: error.issues },
+        { status: 400 }
+      );
+    }
     return NextResponse.json(
       { error: "Erreur lors de la modification du produit" },
       { status: 500 }

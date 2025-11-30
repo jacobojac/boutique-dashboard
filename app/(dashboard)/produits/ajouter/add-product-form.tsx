@@ -47,7 +47,7 @@ const variantSchema = z.object({
   couleur: z.string().optional(),
   couleurHex: z.string().optional(),
   prix: z.string().optional(),
-  quantity: z.string(),
+  stockZeroEnabled: z.boolean().default(false),
   sku: z.string().optional(),
 });
 
@@ -555,7 +555,7 @@ export const AddProductForm = () => {
                           couleur: "",
                           couleurHex: "",
                           prix: "",
-                          quantity: "0",
+                          stockZeroEnabled: false,
                           sku: "",
                         };
                         field.onChange([...(field.value || []), newVariant]);
@@ -742,23 +742,25 @@ export const AddProductForm = () => {
                             </Select>
                           </div>
 
-                          {/* Prix spécifique */}
-
-                          {/* Quantité */}
+                          {/* Stock à 0 */}
                           <div className="space-y-2">
                             <label className="text-sm font-medium">
-                              Quantité
+                              Stock à 0
                             </label>
-                            <Input
-                              type="number"
-                              placeholder="0"
-                              value={variant.quantity}
-                              onChange={(e) => {
-                                const newVariants = [...(field.value || [])];
-                                newVariants[index].quantity = e.target.value;
-                                field.onChange(newVariants);
-                              }}
-                            />
+                            <div className="flex items-center gap-2">
+                              <Switch
+                                checked={variant.stockZeroEnabled}
+                                onCheckedChange={(checked) => {
+                                  const newVariants = [...(field.value || [])];
+                                  newVariants[index].stockZeroEnabled = checked;
+                                  field.onChange(newVariants);
+                                }}
+                                className={variant.stockZeroEnabled ? "data-[state=checked]:bg-red-500" : ""}
+                              />
+                              <span className={`text-xs ${variant.stockZeroEnabled ? "text-red-500 font-medium" : "text-gray-500"}`}>
+                                {variant.stockZeroEnabled ? "Activé" : "Désactivé"}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </Card>
